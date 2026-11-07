@@ -9,6 +9,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v*-xrvi*'
 
 permissions:
   contents: write
@@ -21,12 +23,12 @@ jobs:
       target: windows
 
   release-zip:
-    if: inputs.release_tag != ''
+    if: inputs.release_tag != '' || github.ref_type == 'tag'
     needs: build
     uses: ./.github/workflows/package-zip.yml
     with:
       target: windows-desktop
-      release_tag: ${{ inputs.release_tag }}
+      release_tag: ${{ inputs.release_tag || github.ref_name }}
     secrets: inherit
 
   build-aot:
@@ -36,11 +38,11 @@ jobs:
       isAot: true
 
   release-aot-zip:
-    if: inputs.release_tag != ''
+    if: inputs.release_tag != '' || github.ref_type == 'tag'
     needs: build-aot
     uses: ./.github/workflows/package-zip.yml
     with:
       target: windows-desktop
-      release_tag: ${{ inputs.release_tag }}
+      release_tag: ${{ inputs.release_tag || github.ref_name }}
       isAot: true
     secrets: inherit
