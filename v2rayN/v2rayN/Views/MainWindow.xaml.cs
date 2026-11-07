@@ -246,7 +246,7 @@ public partial class MainWindow
 
     private void MenuPromotion_Click(object sender, RoutedEventArgs e)
     {
-        ProcUtils.ProcessStart($"{Utils.Base64Decode(Global.PromotionUrl)}?t={DateTime.Now.Ticks}");
+        ProcUtils.ProcessStart(Utils.Base64Decode(Global.PromotionUrl));
     }
 
     private void MenuSettingsSetUWP_Click(object sender, RoutedEventArgs e)
